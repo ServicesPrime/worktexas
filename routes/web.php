@@ -51,6 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('permissions', PermissionController::class)->names('permissions');
     Route::resource('perfiles', RoleController::class)->parameters(['perfiles' => 'perfiles']);
     Route::resource('user', UserController::class)->parameters(['user' => 'user']);
+    Route::resource('applicants', \App\Http\Controllers\ApplicantController::class)
+        ->parameters(['applicants' => 'applicant']);
 
    
   });
