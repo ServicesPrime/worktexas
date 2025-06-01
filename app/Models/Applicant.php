@@ -9,13 +9,16 @@ class Applicant extends Model
 {
     use HasFactory;
 
+
     protected $table = 'applicants';
 
+
     protected $fillable = [
-        'nombre',
-        'apellido',
-        'correo',
-        'numero',
+        'name',
+        'last_name',
+        'email',
+        'number',
+
         'car',
     ];
 }
