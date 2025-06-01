@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Applicant;
 use Illuminate\Http\Request;
-
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -49,55 +49,76 @@ class ApplicantController extends Controller
             'order'      => $order,
             'direction'  => $direction,
         ]);
-=======
-
-class ApplicantController extends Controller
-{
-    public function index()
-    {
-        return response()->json(Applicant::all());
     }
 
-    public function store(Request $request)
+    public function create(): Response
+    {
+        return Inertia::render("{$this->source}Create", [
+            'title' => 'Add Applicant',
+            'routeName' => $this->routeName,
+        ]);
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|max:255',
-            'number' => 'required|string|max:255',
-            'car' => 'required|string|max:255',
+            'first_name' => 'required|string',
+            'last_name'  => 'required|string',
+            'email'      => 'required|email',
+            'number'     => 'required|string',
+            'car'        => 'required|string',
         ]);
 
-        $applicant = Applicant::create($data);
+        Applicant::create([
+            'nombre'   => $data['first_name'],
+            'apellido' => $data['last_name'],
+            'correo'   => $data['email'],
+            'numero'   => $data['number'],
+            'car'      => $data['car'],
+        ]);
 
-        return response()->json($applicant, 201);
+        return redirect()->route("{$this->routeName}index")->with('success', 'Applicant created');
+    }
+
+    public function edit(Applicant $applicant): Response
+    {
+        return Inertia::render("{$this->source}Edit", [
+            'title'     => 'Edit Applicant',
+            'applicant' => $applicant,
+            'routeName' => $this->routeName,
+        ]);
+    }
+
+    public function update(Request $request, Applicant $applicant): RedirectResponse
+    {
+        $data = $request->validate([
+            'first_name' => 'required|string',
+            'last_name'  => 'required|string',
+            'email'      => 'required|email',
+            'number'     => 'required|string',
+            'car'        => 'required|string',
+        ]);
+
+        $applicant->update([
+            'nombre'   => $data['first_name'],
+            'apellido' => $data['last_name'],
+            'correo'   => $data['email'],
+            'numero'   => $data['number'],
+            'car'      => $data['car'],
+        ]);
+
+        return redirect()->route("{$this->routeName}index")->with('success', 'Applicant updated');
+    }
+
+    public function destroy(Applicant $applicant): RedirectResponse
+    {
+        $applicant->delete();
+
+        return redirect()->route("{$this->routeName}index")->with('success', 'Applicant deleted');
     }
 
     public function show(Applicant $applicant)
     {
-        return response()->json($applicant);
-    }
-
-    public function update(Request $request, Applicant $applicant)
-    {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|max:255',
-            'number' => 'required|string|max:255',
-            'car' => 'required|string|max:255',
-        ]);
-
-        $applicant->update($data);
-
-        return response()->json($applicant);
-    }
-
-    public function destroy(Applicant $applicant)
-    {
-        $applicant->delete();
-
-        return response()->noContent();
-
+        abort(404); // si no lo necesitas, puedes eliminarlo
     }
 }

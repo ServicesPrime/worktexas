@@ -1,205 +1,106 @@
 <script setup>
-import LayoutMain from '@/Layouts/LayoutMain.vue';
-import { Head } from '@inertiajs/vue3';
+import LayoutMain from "@/Layouts/LayoutMain.vue";
+import SectionTitleLineWithButton from "@/Components/SectionTitleLineWithButton.vue";
+import { Head, Link, router } from "@inertiajs/vue3";
+import { mdiPlus, mdiApplicationEdit, mdiTrashCan } from "@mdi/js";
+import Swal from "sweetalert2";
 
 const props = defineProps({
-    title: String,
-    routeName: String,
-    applicants: Object,
-    search: String,
-    order: String,
-    direction: String,
+  title: { type: String, required: true },
+  applicants: { type: Object, required: true },
+  routeName: { type: String, required: true },
+  search: { type: String, required: false },
+  order: { type: String, required: false },
+  direction: { type: String, required: false },
 });
-</script>
 
-<template>
-    <Head :title="title" />
-    <LayoutMain>
-        <h1 class="text-2xl font-bold mb-4">{{ title }}</h1>
-        <div v-if="applicants.data && applicants.data.length">
-            <table class="min-w-full border">
-                <thead>
-                    <tr>
-                        <th class="px-4 py-2 border">Nombre</th>
-                        <th class="px-4 py-2 border">Apellido</th>
-                        <th class="px-4 py-2 border">Correo</th>
-                        <th class="px-4 py-2 border">Numero</th>
-                        <th class="px-4 py-2 border">Car</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in applicants.data" :key="item.id">
-                        <td class="border px-4 py-2">{{ item.nombre }}</td>
-                        <td class="border px-4 py-2">{{ item.apellido }}</td>
-                        <td class="border px-4 py-2">{{ item.correo }}</td>
-                        <td class="border px-4 py-2">{{ item.numero }}</td>
-                        <td class="border px-4 py-2">{{ item.car }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div v-else>No applicants found</div>
-    </LayoutMain>
-</template>
-=======
-<script>
-import { Link, useForm } from '@inertiajs/vue3';
-import Swal from "sweetalert2";
-import Pagination from '@/Shared/Pagination.vue';
-import LayoutMain from '@/Layouts/LayoutMain.vue';
-import {
-    mdiMonitorCellphone,
-    mdiTableBorder,
-    mdiTableOff,
-    mdiGithub,
-    mdiApplicationEdit, mdiTrashCan
-} from "@mdi/js";
-import TableSampleClients from "@/Components/TableSampleClients.vue";
-import CardBox from "@/Components/CardBox.vue";
-import SectionTitleLineWithButton from "@/Components/SectionTitleLineWithButton.vue";
-import BaseLevel from "@/Components/BaseLevel.vue";
-import BaseButtons from "@/Components/BaseButtons.vue";
-import BaseButton from "@/Components/BaseButton.vue";
-import CardBoxComponentEmpty from "@/Components/CardBoxComponentEmpty.vue";
-import NotificationBar from "@/Components/NotificationBar.vue";
-
-
-
-export default {
-    props: {
-        titulo: { type: String, required: true },
-        Applicant: {
-            type: Object,
-            required: true
-        },
-        routeName: { type: String, required: true },
-        loadingResults: { type: Boolean, required: true, default: true }
-    },
-    components: {
-        Link,
-        LayoutMain,
-        CardBox,
-        TableSampleClients,
-        SectionTitleLineWithButton,
-        BaseLevel,
-        BaseButtons,
-        BaseButton,
-        CardBoxComponentEmpty,
-        Pagination,
-        NotificationBar
-    },
-    setup() {
-        const form = useForm({
-            nombre: '',
-            
-        });
-        const eliminar = (id) => {
-            Swal.fire({
-                title: "¿Esta seguro?",
-                text: "Esta acción no se puede revertir",
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                confirmButtonColor: "#3085d6",
-                confirmButtonText: "Si!, eliminar registro!",
-            }).then((res) => {
-                if (res.isConfirmed) {
-                    form.delete(route("aplicant.destroy", id));
-                }
-            });
-        };
-
-        return {
-            form, eliminar, mdiMonitorCellphone,
-            mdiTableBorder,
-            mdiTableOff,
-            mdiGithub,
-            mdiApplicationEdit, mdiTrashCan,
-        }
+const eliminar = (id) => {
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción no se puede revertir",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "¡Sí, eliminar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      router.delete(route(`${props.routeName}destroy`, id));
     }
-
-}
+  });
+};
 </script>
 
 <template>
-    <LayoutMain>
-        <SectionTitleLineWithButton  :title="titulo" main>
-            <BaseButton :href="'especialidades/create'" class="action-button" label="Agregar nueva especialidad" />
-        </SectionTitleLineWithButton>
-       
-        <NotificationBar v-if="$page.props.flash.success" color="success" :icon="mdiInformation" :outline="false">
-            {{ $page.props.flash.success }}
-        </NotificationBar>
+  <Head :title="title" />
+  <LayoutMain>
+    <SectionTitleLineWithButton :icon="mdiPlus" :title="title" main>
+      <Link :href="route(`${routeName}create`)" class="action-button">Agregar nuevo</Link>
+    </SectionTitleLineWithButton>
 
-        <NotificationBar v-if="$page.props.flash.error" color="danger" :icon="mdiInformation" :outline="false">
-            {{ $page.props.flash.error }}
-        </NotificationBar>
+    <div v-if="applicants.data.length" class="mt-4">
+      <table class="table-auto w-full">
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Nombre</th>
+            <th class="px-4 py-2">Apellido</th>
+            <th class="px-4 py-2">Correo</th>
+            <th class="px-4 py-2">Número</th>
+            <th class="px-4 py-2">Car</th>
+            <th class="px-4 py-2 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in applicants.data" :key="item.id">
+            <td class="border px-4 py-2">{{ item.nombre }}</td>
+            <td class="border px-4 py-2">{{ item.apellido }}</td>
+            <td class="border px-4 py-2">{{ item.correo }}</td>
+            <td class="border px-4 py-2">{{ item.numero }}</td>
+            <td class="border px-4 py-2">{{ item.car }}</td>
+            <td class="border px-4 py-2 text-right">
+              <Link :href="route(`${routeName}edit`, item.id)" class="icon-button">
+                <i :class="mdiApplicationEdit"></i> Editar
+              </Link>
+              <button @click="eliminar(item.id)" class="iconred ml-2">
+                <i :class="mdiTrashCan"></i> Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-        <CardBox v-if="Especialidades.data.length < 1">
-            <CardBoxComponentEmpty />
-        </CardBox>
-
-        <CardBox v-else class="mb-6" has-table>
-            <table>
-                <thead>
-                    <tr>
-                        <th />
-                        <th>Nombre</th>
-                       
-                        <th></th>
-                        <th />
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in Especialidades.data" :key="item.id">
-                        <td class="align-items-center">
-                           
-                        </td>
-                        <td data-label="Nombre">
-                            {{ item.nombre }}
-                        </td>
-
-                        <td class="before:hidden lg:w-1 whitespace-nowrap">
-                            <BaseButtons type="justify-start lg:justify-end" no-wrap>
-                                <BaseButton class="icon" :icon="mdiApplicationEdit" small
-                                    :href="route(`${routeName}edit`, item.id)" />
-                                <BaseButton class="iconred" :icon="mdiTrashCan" small @click="eliminar(item.id)" />
-                            </BaseButtons>
-                        </td>
-
-                    </tr>
-                </tbody>
-            </table>
-
-
-
-            <Pagination :currentPage="Especialidades.current_page" :links="Especialidades.links"
-                :total="Especialidades.links.length - 2"></Pagination>
-        </CardBox>
-
-    </LayoutMain>
+    <div v-else class="mt-4">
+      <p>No hay registros disponibles.</p>
+    </div>
+  </LayoutMain>
 </template>
+
 <style scoped>
 .action-button {
-    margin-left: 20px;
-    background-color: #4F1F91; 
-    color: #fff;
-    text-align: center;
-    padding: 10px 20px;
-    border-radius: 4px;
-    text-decoration: none;
-    border: none; 
-    cursor: pointer;
-  }
-  .action-button:hover {
-    background-color: #FBB034; 
-  }
-  .icon{
-    background-color: #FBB034; 
-    color: #fff;
-  }
-  .iconred{
-    background-color: #F50003; 
-    color: #fff;
-  }
+  background-color: #4f1f91;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+.action-button:hover {
+  background-color: #fbb034;
+}
+.icon-button {
+  background-color: #fbb034;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.iconred {
+  background-color: #f50003;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: none;
+}
 </style>

@@ -2,23 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Applicant extends Model
 {
-    use HasFactory;
-
-
-    protected $table = 'applicants';
-
-
     protected $fillable = [
-        'name',
-        'last_name',
-        'email',
-        'number',
-
+        'nombre',
+        'apellido',
+        'correo',
+        'numero',
         'car',
     ];
 }
