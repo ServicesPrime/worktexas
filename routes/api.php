@@ -20,6 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::middleware(['auth'])->get('/formats/{id}', [EntryFormatController::class, 'getFormat']);
 
+Route::apiResource('applicants', \App\Http\Controllers\ApplicantController::class);
+
 
 // Ejemplo
 Route::get('/students', function(){
