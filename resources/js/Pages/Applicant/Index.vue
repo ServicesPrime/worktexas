@@ -52,10 +52,10 @@ const eliminar = (id) => {
         </thead>
         <tbody>
           <tr v-for="item in applicants.data" :key="item.id">
-            <td class="border px-4 py-2">{{ item.nombre }}</td>
-            <td class="border px-4 py-2">{{ item.apellido }}</td>
-            <td class="border px-4 py-2">{{ item.correo }}</td>
-            <td class="border px-4 py-2">{{ item.numero }}</td>
+            <td class="border px-4 py-2">{{ item.name }}</td>
+            <td class="border px-4 py-2">{{ item.surname }}</td>
+            <td class="border px-4 py-2">{{ item.email }}</td>
+            <td class="border px-4 py-2">{{ item.phone }}</td>
             <td class="border px-4 py-2">{{ item.car }}</td>
             <td class="border px-4 py-2 text-right">
               <Link :href="route(`${routeName}edit`, item.id)" class="icon-button">

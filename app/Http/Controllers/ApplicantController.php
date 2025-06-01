@@ -61,6 +61,7 @@ class ApplicantController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        
         $data = $request->validate([
             'first_name' => 'required|string',
             'last_name'  => 'required|string',
@@ -68,12 +69,12 @@ class ApplicantController extends Controller
             'number'     => 'required|string',
             'car'        => 'required|string',
         ]);
-
+        
         Applicant::create([
-            'nombre'   => $data['first_name'],
-            'apellido' => $data['last_name'],
-            'correo'   => $data['email'],
-            'numero'   => $data['number'],
+            'name'   => $data['first_name'],
+            'surname' => $data['last_name'],
+            'email'   => $data['email'],
+            'phone'   => $data['number'],
             'car'      => $data['car'],
         ]);
 
