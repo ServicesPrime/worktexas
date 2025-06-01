@@ -40,29 +40,7 @@ export default [
         label: "Inicio",
         to: "/dashboard",
     },
-    {
-        href: "/entryformat",
-        icon: mdiMonitor,
-        label: "Formato de inicio",
-        
-    },
     
-    {
-        label: "Catalogs",
-        icon: mdiFormatListNumberedRtl,
-        //role: "Admin",
-        //permission: "modulo.seguridad",
-        menu: [
-            {
-                label: "Jobs",
-                route: "jobPosition.index",
-                icon: mdiBriefcase,
-                //permission: "module.index",
-            }
-            
-            
-        ],
-    },
     
 
     {

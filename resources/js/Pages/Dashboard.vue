@@ -94,4 +94,3 @@ const props = defineProps({
     </SectionMain>
   </LayoutAuthenticated>
 </template>
-hola

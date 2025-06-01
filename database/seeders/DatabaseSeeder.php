@@ -17,10 +17,7 @@ class DatabaseSeeder extends Seeder
             ModuleSeeder::class,
             PermissionSeeder::class,
             AdminSeeder::class,
-            JobPositionSeeder::class,
-            DocumentSeeder::class,
-            CountrySeeder::class,
-            LanguageSeeder::class,
+          
         ]);
     }
 }

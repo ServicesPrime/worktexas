@@ -5,29 +5,16 @@ use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\CoverageController;
 use App\Http\Controllers\CoveragePackageController;
-use App\Http\Controllers\DoctorController;
-use App\Http\Controllers\EspecialidadesController;
-use App\Http\Controllers\LiquidationController;
-use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ModuloController;
-use App\Http\Controllers\PacienteController;
-use App\Http\Controllers\PartialReceiptController;
-use App\Http\Controllers\PaymentVoucherController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiptController;
-use App\Http\Controllers\TratamientosController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\EntryFormatController;
-use App\Http\Controllers\JobPositionController;
 use Illuminate\Http\Request;
-use App\Http\Controllers\FileController;
-
 
 use App\Http\Controllers\WelcomeController;
 use App\Models\EntryFormat;
@@ -38,16 +25,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
 
 // PUBLICO
 Route::get('/', function () {
@@ -58,10 +36,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('welcome');
-
-Route::get('/entryformat/create', [EntryFormatController::class, 'create'])->name('entryformat.create');
-Route::post('entryFormat-validated', [EntryFormatController::class, 'validateFields'])->name('entryFormat.validateFields');
-Route::post('/entryformat', [EntryFormatController::class, 'store'])->name('entryformat.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
@@ -78,19 +52,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('perfiles', RoleController::class)->parameters(['perfiles' => 'perfiles']);
     Route::resource('user', UserController::class)->parameters(['user' => 'user']);
 
-    Route::resource('entryformat', EntryFormatController::class)->names('entryformat')->except('create', 'store');
-    Route::resource('jobPosition', JobPositionController::class)->names('jobPosition');
-
-    Route::get('/formats/{entryFormat}', [EntryFormatController::class, 'getFormat'])->name('entryFormat.get');
-
    
-    // Ruta para acceder a los archivos privados
-    Route::get('/files/{file}', [FileController::class, 'serveFile'])->name('files.serve');
-});
+  });
 
-Route::get('/checkEmail', function (Request $request) {
-    $emailExists = EntryFormat::where('email', $request->email)->exists();
-    return response()->json(['exists' => $emailExists]);
-});
+
 
 require __DIR__ . '/auth.php';
