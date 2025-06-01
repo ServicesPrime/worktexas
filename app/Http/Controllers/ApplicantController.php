@@ -29,10 +29,10 @@ class ApplicantController extends Controller
 
         $records = $this->model->query()->when($request->search, function ($query, $search) {
             if ($search !== '') {
-                $query->where('nombre', 'LIKE', "%{$search}%")
-                    ->orWhere('apellido', 'LIKE', "%{$search}%")
-                    ->orWhere('correo', 'LIKE', "%{$search}%")
-                    ->orWhere('numero', 'LIKE', "%{$search}%")
+                $query->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('surname', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('phone', 'LIKE', "%{$search}%")
                     ->orWhere('car', 'LIKE', "%{$search}%");
             }
         });
@@ -61,7 +61,6 @@ class ApplicantController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        
         $data = $request->validate([
             'first_name' => 'required|string',
             'last_name'  => 'required|string',
@@ -69,13 +68,13 @@ class ApplicantController extends Controller
             'number'     => 'required|string',
             'car'        => 'required|string',
         ]);
-        
+
         Applicant::create([
-            'name'   => $data['first_name'],
+            'name'    => $data['first_name'],
             'surname' => $data['last_name'],
             'email'   => $data['email'],
             'phone'   => $data['number'],
-            'car'      => $data['car'],
+            'car'     => $data['car'],
         ]);
 
         return redirect()->route("{$this->routeName}index")->with('success', 'Applicant created');
@@ -101,11 +100,11 @@ class ApplicantController extends Controller
         ]);
 
         $applicant->update([
-            'nombre'   => $data['first_name'],
-            'apellido' => $data['last_name'],
-            'correo'   => $data['email'],
-            'numero'   => $data['number'],
-            'car'      => $data['car'],
+            'name'    => $data['first_name'],
+            'surname' => $data['last_name'],
+            'email'   => $data['email'],
+            'phone'   => $data['number'],
+            'car'     => $data['car'],
         ]);
 
         return redirect()->route("{$this->routeName}index")->with('success', 'Applicant updated');
@@ -120,6 +119,6 @@ class ApplicantController extends Controller
 
     public function show(Applicant $applicant)
     {
-        abort(404); // si no lo necesitas, puedes eliminarlo
+        abort(404);
     }
 }

@@ -2,27 +2,47 @@
 import LayoutMain from "@/Layouts/LayoutMain.vue";
 import SectionTitleLineWithButton from "@/Components/SectionTitleLineWithButton.vue";
 import { Head, Link, router } from "@inertiajs/vue3";
-import { mdiPlus, mdiApplicationEdit, mdiTrashCan } from "@mdi/js";
+import { ref, reactive, watch } from "vue";
+import debounce from "lodash/debounce";
 import Swal from "sweetalert2";
+import Pagination from "@/Shared/Pagination.vue";
 
 const props = defineProps({
-  title: { type: String, required: true },
-  applicants: { type: Object, required: true },
-  routeName: { type: String, required: true },
-  search: { type: String, required: false },
-  order: { type: String, required: false },
-  direction: { type: String, required: false },
+  title: String,
+  routeName: String,
+  applicants: Object,
+  search: String,
+  order: String,
+  direction: String,
 });
+
+const search = ref(props.search);
+const state = reactive({
+  filters: {
+    search: search,
+    order: props.order,
+    direction: props.direction,
+  },
+});
+
+watch(search, debounce(() => {
+  router.get(route(`${props.routeName}index`, state.filters), { replace: true });
+}, 500));
+
+const cleanFilters = () => {
+  search.value = "";
+  router.get(route(`${props.routeName}index`));
+};
 
 const eliminar = (id) => {
   Swal.fire({
-    title: "¿Estás seguro?",
-    text: "Esta acción no se puede revertir",
+    title: "Are you sure?",
+    text: "This action cannot be undone.",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
+    confirmButtonColor: "#4f1f91",
     cancelButtonColor: "#d33",
-    confirmButtonText: "¡Sí, eliminar!",
+    confirmButtonText: "Yes, delete it!",
   }).then((result) => {
     if (result.isConfirmed) {
       router.delete(route(`${props.routeName}destroy`, id));
@@ -34,20 +54,34 @@ const eliminar = (id) => {
 <template>
   <Head :title="title" />
   <LayoutMain>
-    <SectionTitleLineWithButton :icon="mdiPlus" :title="title" main>
-      <Link :href="route(`${routeName}create`)" class="action-button">Agregar nuevo</Link>
+    <SectionTitleLineWithButton :title="title" main>
+      <Link :href="route(`${routeName}create`)" class="action-button ml-auto">
+        + Add New
+      </Link>
     </SectionTitleLineWithButton>
 
-    <div v-if="applicants.data.length" class="mt-4">
-      <table class="table-auto w-full">
+    <form @submit.prevent="" class="my-4 flex gap-2">
+      <input
+        type="search"
+        v-model="search"
+        placeholder="Search..."
+        class="flex-1 border rounded px-3 py-2"
+      />
+      <button type="button" @click="cleanFilters" class="action-button bg-gray-400">
+        Clear
+      </button>
+    </form>
+
+    <div v-if="applicants.data.length">
+      <table class="table-auto w-full border">
         <thead>
           <tr>
-            <th class="px-4 py-2">Nombre</th>
-            <th class="px-4 py-2">Apellido</th>
-            <th class="px-4 py-2">Correo</th>
-            <th class="px-4 py-2">Número</th>
-            <th class="px-4 py-2">Car</th>
-            <th class="px-4 py-2 text-right">Acciones</th>
+            <th class="px-4 py-2 border">First name</th>
+            <th class="px-4 py-2 border">Last name</th>
+            <th class="px-4 py-2 border">Email</th>
+            <th class="px-4 py-2 border">Phone</th>
+            <th class="px-4 py-2 border">Car</th>
+            <th class="px-4 py-2 border text-right">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -57,21 +91,29 @@ const eliminar = (id) => {
             <td class="border px-4 py-2">{{ item.email }}</td>
             <td class="border px-4 py-2">{{ item.phone }}</td>
             <td class="border px-4 py-2">{{ item.car }}</td>
-            <td class="border px-4 py-2 text-right">
+            <td class="border px-4 py-2 text-right space-x-2">
               <Link :href="route(`${routeName}edit`, item.id)" class="icon-button">
-                <i :class="mdiApplicationEdit"></i> Editar
+                Edit
               </Link>
-              <button @click="eliminar(item.id)" class="iconred ml-2">
-                <i :class="mdiTrashCan"></i> Eliminar
+              <button @click="eliminar(item.id)" class="iconred">
+                Delete
               </button>
             </td>
           </tr>
         </tbody>
       </table>
+
+      <Pagination
+        class="mt-4"
+        :links="applicants.links"
+        :total="applicants.total"
+        :to="applicants.to"
+        :from="applicants.from"
+      />
     </div>
 
     <div v-else class="mt-4">
-      <p>No hay registros disponibles.</p>
+      <p>No applicants found.</p>
     </div>
   </LayoutMain>
 </template>
@@ -80,24 +122,24 @@ const eliminar = (id) => {
 .action-button {
   background-color: #4f1f91;
   color: #fff;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border-radius: 4px;
   text-decoration: none;
   border: none;
   cursor: pointer;
 }
 .action-button:hover {
-  background-color: #fbb034;
+  background-color: #6b21a8;
 }
 .icon-button {
-  background-color: #fbb034;
+  background-color: #38a169;
   color: #fff;
   padding: 6px 12px;
   border-radius: 4px;
-  text-decoration: none;
+  border: none;
 }
 .iconred {
-  background-color: #f50003;
+  background-color: #e53e3e;
   color: #fff;
   padding: 6px 12px;
   border-radius: 4px;
