@@ -61,6 +61,7 @@ class ApplicantController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        
         $data = $request->validate([
             'first_name' => 'required|string',
             'last_name'  => 'required|string',
