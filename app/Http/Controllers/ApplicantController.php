@@ -92,19 +92,19 @@ class ApplicantController extends Controller
 
     public function update(Request $request, Applicant $applicant): RedirectResponse
     {
+       
         $data = $request->validate([
-            'first_name' => 'required|string',
-            'last_name'  => 'required|string',
+            'name' => 'required|string',
+            'surname'  => 'required|string',
             'email'      => 'required|email',
-            'number'     => 'required|string',
+            'phone'     => 'required|string',
             'car'        => 'required|string',
         ]);
-
         $applicant->update([
-            'name'    => $data['first_name'],
-            'surname' => $data['last_name'],
+            'name'    => $data['name'],
+            'surname' => $data['surname'],
             'email'   => $data['email'],
-            'phone'   => $data['number'],
+            'phone'   => $data['phone'],
             'car'     => $data['car'],
         ]);
 
