@@ -15,6 +15,9 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\UserController;
+
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ZipCodeController;
 use App\Http\Controllers\ApplicantController;
 use Illuminate\Http\Request;
 
@@ -54,8 +57,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('permissions', PermissionController::class)->names('permissions');
     Route::resource('perfiles', RoleController::class)->parameters(['perfiles' => 'perfiles']);
     Route::resource('user', UserController::class)->parameters(['user' => 'user']);
-    Route::resource('applicant', ApplicantController::class)->names('applicant');
 
+    Route::resource('zipcode', ZipCodeController::class)->parameters(['zipcode' => 'zipcode']);
+    Route::resource('address', AddressController::class)->parameters(['address' => 'address']);
+    Route::resource('applicant', ApplicantController::class)->names('applicant');
 
   });
 
