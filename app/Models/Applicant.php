@@ -7,7 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Applicant extends Model
 {
+    use HasFactory;
 
-    protected $fillable = ['name', 'surname', 'email', 'phone', 'car'];
+    protected $fillable = [
+        'name',
+        'surname',
+        'email',
+        'phone',
+        'car',
+        'address_id',
+    ];
 
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
+    }
 }
