@@ -14,6 +14,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApplicantController;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\WelcomeController;
@@ -51,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('permissions', PermissionController::class)->names('permissions');
     Route::resource('perfiles', RoleController::class)->parameters(['perfiles' => 'perfiles']);
     Route::resource('user', UserController::class)->parameters(['user' => 'user']);
+    Route::resource('applicants', ApplicantController::class);
 
    
   });
