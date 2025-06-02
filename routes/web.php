@@ -8,14 +8,17 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CoverageController;
 use App\Http\Controllers\CoveragePackageController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\ModuloController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ZipCodeController;
+use App\Http\Controllers\ApplicantController;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\WelcomeController;
@@ -50,13 +53,15 @@ Route::middleware('auth')->group(function () {
 
     // Seguridad
     Route::resource('module', ModuleController::class)->parameters(['module' => 'module']);
+    Route::resource('job', JobController::class)->parameters(['job' => 'job']);
     Route::resource('permissions', PermissionController::class)->names('permissions');
     Route::resource('perfiles', RoleController::class)->parameters(['perfiles' => 'perfiles']);
     Route::resource('user', UserController::class)->parameters(['user' => 'user']);
+
     Route::resource('zipcode', ZipCodeController::class)->parameters(['zipcode' => 'zipcode']);
     Route::resource('address', AddressController::class)->parameters(['address' => 'address']);
+    Route::resource('applicant', ApplicantController::class)->names('applicant');
 
-   
   });
 
 
