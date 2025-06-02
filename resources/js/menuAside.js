@@ -2,11 +2,11 @@ import {
     mdiAccountCircle,
     mdiMonitor,
     mdiFormatListNumberedRtl,
-    mdiCogOutline, 
+    mdiCogOutline,
     mdiListBox,
-    mdiPlaylistEdit ,
-    mdiCalendarAccount ,
-    mdiCalendarCheckOutline ,
+    mdiPlaylistEdit,
+    mdiCalendarAccount,
+    mdiCalendarCheckOutline,
     mdiCalendarEdit,
     mdiDomain,
     mdiShieldCrown,
@@ -31,7 +31,6 @@ import {
     mdiCalendarMonth,
     mdiBriefcase,
 } from "@mdi/js";
-// import Icon from '@mdi/react';
 
 export default [
     {
@@ -40,9 +39,6 @@ export default [
         label: "Inicio",
         to: "/dashboard",
     },
-    
-    
-
     {
         route: "profile.edit",
         label: "Perfil",
@@ -80,51 +76,17 @@ export default [
             },
         ],
     },
-    // {
-    //     label: "Catalogos",
-    //     icon: mdiPlaylistEdit ,
-    //     role: "Admin",
-    //     menu: [
-    //         {
-    //             label: "Especialidades",
-    //             route: "especialidades.index",
-    //             icon: mdiListBox ,
-    //         },
-    //         {
-    //             label: "Tratamientos",
-    //             route: "tratamientos.index",
-    //             icon: mdiClipboardList ,
-               
-    //         },
-           
-    //     ],
-    // },
-    // {
-    //     route: "doctores.index",
-    //     label: "Doctores",
-    //     icon: mdiCogOutline ,
-    // },
-    // {
-    //     route: "profile.edit",
-    //     label: "Mantenimiento",
-    //     icon: mdiCogOutline ,
-    // },
-    // {
-    //     route: "profile.edit",
-    //     label: "Citas",
-    //     icon: mdiCalendarEdit,
-    // },
-    // {
-    //     route: "profile.edit",
-    //     label: "Historial citas",
-    //     icon: mdiCalendarCheckOutline  ,
-    // },
-    // {
-    //     route: "profile.edit",
-    //     label: "Calendario",
-    //     icon: mdiCalendarMonth ,
-    // },
-     {
+    {
         isDivider: true,
+    },
+    {
+        label: "Applicants",
+        route: "applicant.index",
+        icon: mdiAccountMultipleCheck,
+    },
+    {
+        label: "Jobs",
+        route: "job.index",
+        icon: mdiBriefcase,
     },
 ];
