@@ -14,7 +14,6 @@ const props = defineProps({
   routeName: { type: String, required: true },
 });
 
-// Formulario reactivo con useForm
 const form = useForm({
   first_name: "",
   last_name: "",
@@ -23,7 +22,6 @@ const form = useForm({
   car: "",
 });
 
-// Método para enviar el formulario
 const saveForm = () => {
   form.post(route(`${props.routeName}store`));
 };

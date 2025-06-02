@@ -7,7 +7,7 @@ import LayoutMain from '@/Layouts/LayoutMain.vue';
 import SectionTitleLineWithButton from '@/Components/SectionTitleLineWithButton.vue';
 import BaseButtons from '@/Components/BaseButtons.vue';
 import ColoredButton from '@/Components/ColoredButton.vue';
-import Form from './Partials/Form.vue'; // Este debe usar los mismos campos que definimos aquí
+import Form from './Partials/Form.vue';
 
 const props = defineProps({
   title: String,
@@ -15,7 +15,7 @@ const props = defineProps({
   applicant: Object,
 });
 
-// Mapeo correcto según espera el backend (first_name, last_name, etc.)
+// useForm con los campos esperados por el backend
 const form = useForm({
   name: props.applicant.name,
   surname: props.applicant.surname,
@@ -54,7 +54,6 @@ provide('form', form);
 
     <CardBox>
       <form @submit.prevent="saveForm">
-        <!-- Form.vue debe usar los mismos nombres: first_name, last_name, etc. -->
         <Form />
 
         <BaseButtons class="mt-4">
