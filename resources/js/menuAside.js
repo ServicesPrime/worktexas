@@ -89,4 +89,15 @@ export default [
         route: "job.index",
         icon: mdiBriefcase,
     },
+    {
+        label: "Zip Codes",
+        route: "zipcode.index",
+        icon: mdiMap,
+    },
+    {
+        label: "Addresses",
+        route: "address.index",
+        icon: mdiClipboardList,
+    },
+    
 ];
